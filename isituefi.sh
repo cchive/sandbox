@@ -1,7 +1,6 @@
 #!/bin/bash
 if [[ $(ls /sys/firmware/efi | grep 'efivars') == *efivars* ]]; then
-  echo Found.
+  exit 1
 else
-  echo Not Found.
+  exit -1
 fi
-echo exit($?)
