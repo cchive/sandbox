@@ -5,6 +5,7 @@
 # ls /sys/firmware/efi
 # lsblk | grep -v 'rom\|loop\|airoot'
 
+
 if [[ $(ls /sys/firmware/efi | grep 'efivars') == *efivars* ]]; then
   echo "Found a efivars!"
 else
@@ -25,7 +26,7 @@ echo ${DEVICE_1_EFI_}
 echo ${DEVICE_2_BOOT}
 echo ${DEVICE_3_MNT_}
 
-sgdisk -z ${!DEVICE}
+sgdisk -z ${DEVICE}
 sgdisk -n 1:0:+512M -t 1:ef00 -c 1:"EFI System" ${DEVICE}
 sgdisk -n 2:0:+512M -t 2:8300 -c 2:"Linux filesystem"　${DEVICE}
 sgdisk -n 3:0: -t 3:8300 -c 3:"Linux filesystem" ${DEVICE}
@@ -40,6 +41,10 @@ mount ${DEVICE_2_BOOT} /mnt/boot
 mkdir /mnt/boot/efi
 mount ${DEVICE_1_EFI_} /mnt/boot/efi
 
-
+# Install Arch Linux
 pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr dosfstools netctl vim
+# Add Wifi
+# base base-devel linux linux-firmware grub efibootmgr dosfstools netctl vim iw wpa_supplicant networkmanager dialog
+
+# Genarate fstab
 genfstab -U /mnt >> /mnt/etc/fstab
