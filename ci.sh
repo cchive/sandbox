@@ -51,7 +51,7 @@ function install() {
     return 0
   fi
   
-  pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr dosfstools netctl vim
+  pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr dosfstools netctl vim dhcpcd
   genfstab -U /mnt >> /mnt/etc/fstab  
 }
 
