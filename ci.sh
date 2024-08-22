@@ -15,10 +15,10 @@ fi
 lsblk | grep -v 'rom\|loop\|airoot'
 # exit 1
 
-DEVICE=/dev/sda
-DEVICE_1_EFI_=${!DEVICE}1
-DEVICE_2_BOOT=${!DEVICE}2
-DEVICE_3_MNT_=${!DEVICE}3
+DEVICE="/dev/sda"
+DEVICE_1_EFI_="${!DEVICE}1"
+DEVICE_2_BOOT="${!DEVICE}2"
+DEVICE_3_MNT_="${!DEVICE}3"
 
 echo sgdisk -z ${!DEVICE}
 echo sgdisk -n 1:0:+512M -t 1:ef00 -c 1:"EFI System" ${!DEVICE}
