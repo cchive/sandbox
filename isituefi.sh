@@ -1,12 +1,14 @@
 #!/bin/bash
-
 function is_uefi() {
-  if [[ $(ls /sys/firmware/efi | grep 'efivars') == *efivars* ]]; then
-    return 1
-  else
-    return -1
-  fi
+  [[ $(ls /sys/firmware/efi | grep 'efivars') == *efivars* ]]
 }
 
 is_uefi
 exit $?
+
+# example
+if is_uefi; then
+  echo UEFI
+else
+  echo NOT UEFI
+fi
