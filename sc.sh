@@ -23,7 +23,7 @@ grub-mkconfig -o /boot/efi/EFI/grub/grub.cfg
 
 # Fallback bootloader
 # EFI\boot\bootx64.efi
-mkdir -p /boot/efi/EFI\boot\
-cp /boot/efi/EFI/grub/grubx64.efi /boot/efi/EFI\boot\bootx64.efi
+mkdir -p /boot/efi/EFI/boot
+cp /boot/efi/EFI/grub/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
 
 exit 0
