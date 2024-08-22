@@ -2,9 +2,9 @@
 
 function is_uefi() {
   if [[ $(ls /sys/firmware/efi | grep 'efivars') == *efivars* ]]; then
-    exit 1
+    return 1
   else
-    exit -1
+    return -1
   fi
 }
 
