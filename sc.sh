@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # arch-chroot /mnt /bin/bash
+# passwd
 # tzselect
 #  > 5、20、1
 
