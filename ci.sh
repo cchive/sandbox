@@ -7,11 +7,19 @@ function is_uefi() {
   [[ $(ls /sys/firmware/efi | grep 'efivars') == *efivars* ]]
 }
 
+function is_mnt_efi() {
+  [ -d '/mnt/boot/efi' ]
+}
+
 function disp_device_list() {
-  lsblk | grep -v 'rom\|loop\|airoot'
+  lsblk -Q 'TYPE == "disk"' | grep -v 'rom\|loop\|airoot'
 }
 
 function format_partition() {
+  if ! is_mnt_efi; then
+    return 0
+  fi
+  
   DEVICE="/dev/$1"
   DEVICE_1_EFI_="${DEVICE}1"
   DEVICE_2_BOOT="${DEVICE}2"
@@ -38,18 +46,29 @@ function format_partition() {
   mount ${DEVICE_1_EFI_} /mnt/boot/efi
 }
 
+function install() {
+  if [ ! -f "/mnt/bin/linux*" ]; then
+    return 0
+  fi
+  
+  pacstrap /mnt base base-devel linux linux-firmware grub efibootmgr dosfstools netctl vim
+  genfstab -U /mnt >> /mnt/etc/fstab  
+}
+
 if [ "x$1" = "x-h" -o "x$1" = "x--help" ]; then
   echo "Usage: $0 [-h|--help]"
   exit 0
 fi
 if [ "x$1" = "x-f" -o "x$1" = "x--format" ]; then
-  if [[ $(lsblk | grep -v 'rom\|loop\|airoot' | grep '$2') == *$2* ]]; then
+  if [[ $(lsblk -Q 'TYPE == "disk"' | grep -v 'rom\|loop\|airoot' | grep "$2") ]]; then
     echo format_partition $2
   fi
   exit 0
 fi
-
-
+if [ "x$1" = "x-i" -o "x$1" = "x--install" ]; then
+  install
+  exit 0
+fi
 
 if is_uefi; then
   :
