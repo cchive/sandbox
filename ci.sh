@@ -1,6 +1,7 @@
+PATH=/use/bin
 #!/bin/bash
 if [ ! -f ~/.bash_profile ]; then
-PATH=~/bin:$PATH
+PATH=~/bin:/use/bin:$PATH
 echo Add PATH=~/bin
 fi
 
